@@ -19,7 +19,7 @@ libc = "0.2.43"
 nix = "0.23"
 ipnetwork = { version = "0.20", default-features = false }
 rustables-macros = { path = "macros", version = "0.1.1-alpha1" }
-netlink-sys = { path = "../netlink-sys" }
+netlink-sys.workspace = true
 bytes = "1.4.0"
 anyhow = "1.0.75"
 
