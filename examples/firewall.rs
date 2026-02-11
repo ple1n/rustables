@@ -3,6 +3,7 @@
 //use rustables::query::{send_batch, Error as QueryError};
 //use rustables::expr::{LogGroup, LogPrefix, LogPrefixError};
 use ipnetwork::IpNetwork;
+use rustables::util;
 use rustables::error::{BuilderError, QueryError};
 use rustables::expr::Log;
 use rustables::{
@@ -110,7 +111,8 @@ impl Firewall {
             .with_expr(Log::new(Some(1), None::<String>)?)
             .add_to_batch(&mut self.batch);
 
-        self.batch.send()?;
+        let mut sock = util::new_socket().map_err(|_| QueryError::RetrievingSocketInfoFailed)?;
+        self.batch.send(&mut sock).map_err(|_| QueryError::UndecidableMessageTermination)?;
         println!("table {} commited", TABLE_NAME);
         Ok(())
     }
@@ -119,7 +121,8 @@ impl Firewall {
         self.batch.add(&self.table, MsgType::Add);
         self.batch.add(&self.table, MsgType::Del);
 
-        self.batch.send()?;
+        let mut sock = util::new_socket().map_err(|_| QueryError::RetrievingSocketInfoFailed)?;
+        self.batch.send(&mut sock).map_err(|_| QueryError::UndecidableMessageTermination)?;
         println!("table {} destroyed", TABLE_NAME);
         Ok(())
     }

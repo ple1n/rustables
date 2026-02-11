@@ -28,6 +28,7 @@ use rustables::{
     },
     Batch, Chain, ChainPolicy, Hook, HookClass, ProtocolFamily, Rule, Table,
 };
+use rustables::util;
 
 const TABLE_NAME: &str = "example-filter-ethernet";
 const OUT_CHAIN_NAME: &str = "chain-for-outgoing-packets";
@@ -94,5 +95,6 @@ fn main() {
 
     // === FINALIZE THE TRANSACTION AND SEND THE DATA TO NETFILTER ===
 
-    batch.send().unwrap();
+    let mut sock = util::new_socket().unwrap();
+    batch.send(&mut sock).unwrap();
 }

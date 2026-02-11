@@ -178,7 +178,11 @@ fn main() -> Result<(), Error> {
     // netfilter the we reached the end of the transaction message. It's also converted to a
     // Vec<u8>, containing the raw netlink data so it can be sent over a netlink socket to netfilter.
     // Finally, the batch is sent over to the kernel.
-    Ok(batch.send()?)
+    let mut sock = rustables::util::new_socket()?;
+    match batch.send(&mut sock) {
+        Ok(_) => Ok(()),
+        Err(e) => Err(Error(e.to_string())),
+    }
 }
 
 #[derive(Debug)]

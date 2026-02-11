@@ -15,13 +15,14 @@ fn main() {
     let t2 = Table::new(ProtocolFamily::Ipv6).with_name("filter");
     let chain1 = Chain::new(&t2).with_name("ufw6-user-limit-accept");
 
-    let chains: Vec<Chain> = list_chains_for_table(&table).unwrap();
+    let mut sock = rustables::util::new_socket().unwrap();
+    let chains: Vec<Chain> = list_chains_for_table(&table, &mut sock).unwrap();
     dbg!(&chains.len());
 
-    let rules: Vec<Rule> = list_rules_for_chain(&chains[2]).unwrap();
+    let rules: Vec<Rule> = list_rules_for_chain(&chains[2], &mut sock).unwrap();
     dbg!(&rules);
 
-    let mut rules: Vec<Rule> = list_rules_for_chain(&chain1).unwrap();
+    let mut rules: Vec<Rule> = list_rules_for_chain(&chain1, &mut sock).unwrap();
     dbg!(&rules);
 
     let rule1 = Rule::new(&chain1)
