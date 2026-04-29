@@ -1,5 +1,5 @@
 [package]
-name = "rustables"
+name = "nsproxy-rustables"
 version = "0.8.1"
 authors = ["lafleur@boum.org", "Simon Thoby", "Mullvad VPN"]
 license = "GPL-3.0-or-later"
@@ -18,8 +18,8 @@ log = "0.4"
 libc = "0.2.43"
 nix = "0.23"
 ipnetwork = { version = "0.20", default-features = false }
-rustables-macros = { path = "macros", version = "0.1.1-alpha1" }
-netlink-sys.workspace = true
+rustables-macros = { package = "nsproxy-rustables-macros", path = "macros", version = "0.1.1-alpha1" }
+netlink-sys = { package = "nsproxy-netlink-sys", path = "../netlink-sys" }
 bytes = "1.4.0"
 anyhow = "1.0.75"
 

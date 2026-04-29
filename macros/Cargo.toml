@@ -1,5 +1,5 @@
 [package]
-name = "rustables-macros"
+name = "nsproxy-rustables-macros"
 version = "0.1.1"
 authors = ["lafleur@boum.org", "Simon Thoby"]
 license = "GPL-3.0-or-later"
